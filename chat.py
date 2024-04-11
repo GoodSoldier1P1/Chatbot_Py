@@ -5,6 +5,7 @@ import streamlit as st
 import random
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+import re
 
 ssl._create_default_https_context = ssl._create_unverified_context
 nltk.data.path.append(os.path.abspath("nltk_data"))
@@ -44,13 +45,20 @@ intents = [
     },
     {
         'tag': 'jedi',
-        'patterns': ['What is a jedi', 'What is the jedi order', 'What is a jedi master', 'What is the Jedi Code', 'What is the mantra of the jedi', ],
+        'patterns': ['What is a jedi', 'What is the jedi order', 'What is a jedi master', ],
         'responses': ['A jedi was a devotee to the ways of the Jedi Order, an ancient order of protectors.', 
                       'The Jedi Order was a noble monastic and nontheistic religious order united in their devotion to the light side of the Force.', 
                       'Jedi Master was a rank in the Jedi Order given to wise and powerful Jedi, many of whome were prominent leaders within the Order. Only Masters were allowed to serve on the Jedi High Council',
-                      'The Jedi Code was a set of rules on tenets in the Jedi Order. The code evolved over the course of centuries an applied to all members of the Order. Among the precepts of the Code was a rule forbidding Jedi from training more than one Padawan at any given time. The Code also embodied the philosophical ideals of the Order, such as discipline, self control, a introspection, and was developed to help the Jedi maintain their devotion to the light side of the Force by rejecting the temptations of the dark side.', 
-                      'Ther is no emotion, there is peace. There is no ignorance, there is knowledge. There is no passion, there is serenity. There is no chaos, there is harmony. There is no deat, there is the Force.',
                       ]
+    },
+    {
+        'tag': 'code',
+        'patterns': ['What is the Code of the jedi', 'What is the mantra of the jedi', ],
+        'responses': [
+                      'The Jedi Code was a set of rules on tenets in the Jedi Order. The code evolved over the course of centuries an applied to all members of the Order. Among the precepts of the Code was a rule forbidding Jedi from training more than one Padawan at any given time. The Code also embodied the philosophical ideals of the Order, such as discipline, self control, a introspection, and was developed to help the Jedi maintain their devotion to the light side of the Force by rejecting the temptations of the dark side.', 
+                      'There is no emotion, there is peace. There is no ignorance, there is knowledge. There is no passion, there is serenity. There is no chaos, there is harmony. There is no deat, there is the Force.',
+                    
+                    ]
     },
     {
         'tag': 'padawans',
@@ -59,7 +67,7 @@ intents = [
     },
     {
         'tag': 'council',
-        'patterns': ['What is the Jedi High Council', 'Who was on the last council', ],
+        'patterns': ['What is the High Council', 'Who was on the last council', ],
         'responses': ['The Jedi High Council, simply known as the Jedi Council, was a body of twelve Jedi Masters that governed the Jedi Order. Headquatered in the Jedi Grand Temple on Coruscant, the High Council worked with the Glactic Senate to maintain peace and justice in the Glactic Republic.',
                       'The final Jedi High Council was during the Clone Wars and consisted of: Yaddle (deceased), Plo Koon, Mace Windu, Yoda, Ki-Adi-Mundi. Obi-Wan Kenobi, Saesee Tiin, Eeth Koth, Agen Kolar, Shaak Ti, Kit Fisto, Adi Gallia (deceased), Even Piell (deceased), Oppo Rancisis, Coleman Kcaj, Depa Billaba, Stass Allie, Anakin Skywalker']
     }
@@ -71,6 +79,7 @@ clf = LogisticRegression(random_state=0, max_iter=10000)
 
 tags = []
 patterns = []
+
 for intent in intents:
     for pattern in intent['patterns']:
         tags.append(intent['tag'])
