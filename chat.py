@@ -95,9 +95,24 @@ def chatbot(input_text):
     tag = clf.predict(input_text)[0]
     for intent in intents:
         if intent['tag'] == tag:
-            response = random.choice(intent['responses'])
+            responses = intent['responses']
+            predetermined_response = get_predetermined_response(input_text, responses)
+            if predetermined_response:
+                return predetermined_response
+            response = random.choice(responses)
             return response
-        
+
+def get_predetermined_response(input_text, responses):
+    predetermined_responses = {
+        'greeting': ['Hi there', 'Hello'],
+        'goodbye': ['Goodbye', 'See you later'],
+        'thanks': ['You\'re welcome', 'No problem']
+    }
+
+    for tag, predetermined_responses in predetermined_responses.items():
+        if tag == clf.predict(input_text)[0]:
+            return random.choice(predetermined_responses)
+    return None
 
 counter = 0
 
