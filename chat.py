@@ -34,11 +34,6 @@ intents = [
         'responses': ['Sure, what do you need help with?', 'I\'m here to help. What\'s the problem?', 'How can I assist you?'],
     },
     {
-        'tag': 'age',
-        'patterns': ['How old are you', 'What\'s your age'],
-        'responses': ['I don\'t have an age. I\'m a chatbot.', 'I was just born in the digital world.', 'Age is just a number for me.'],
-    },
-    {
         'tag': 'jedi',
         'patterns': ['What is a jedi', 'What is the jedi order', 'What is a jedi master', ],
         'responses': ['A jedi was a devotee to the ways of the Jedi Order, an ancient order of protectors.', 
@@ -57,8 +52,9 @@ intents = [
     },
     {
         'tag': 'padawans',
-        'patterns': [],
-        'responses': []
+        'patterns': ['what is a padawan'],
+        'responses': ['A Padawan, also known as a Padawan learner, Padawan apprentice, Jedi apprentice, or apprentice, was the stage of Jedi training where a Force-sensitive of the Jedi Order trained under a Jedi Knight or Master.',
+                      ]
     },
     {
         'tag': 'council',
@@ -86,8 +82,9 @@ clf.fit(x, y)
 
 def regex_patterns(input_text):
     re_patterns = {
-        'code': r'\b(code|mantra|jedi code)\b',
-        'council': r'\b(council|High Council|jedi high council)\b',
+        'code': r'\b(code|mantra|jedi code|)\b',
+        'council': r'\b(council|High Council|jedi high council|)\b',
+        'padawan': r'\b(padawan|)\b',
         'jedi': r'\b(jedi|Jedi Order|Jedi Master|who are the jedi|)\b',
     }
 
