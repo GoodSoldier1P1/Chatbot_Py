@@ -29,11 +29,6 @@ intents = [
         'responses': ['You\'re welcome', 'No problem', 'Glad I could help'],
     },
     {
-        'tag': 'about',
-        'patterns': ['What can you do', 'Who are you', 'What are you', 'What is your purpose'],
-        'responses': ['I am a chatbot', 'My purpose is to assist you', 'I can answer questions and provide assistance'],
-    },
-    {
         'tag': 'help',
         'patterns': ['Help', 'I need help', 'Can you help me', 'What should I do'],
         'responses': ['Sure, what do you need help with?', 'I\'m here to help. What\'s the problem?', 'How can I assist you?'],
@@ -89,24 +84,55 @@ x = vectorizer.fit_transform(patterns)
 y = tags
 clf.fit(x, y)
 
+def regex_patterns(input_text):
+    re_patterns = {
+        'code': r'\b(code|mantra|jedi code)\b',
+        'council': r'\b(council|High Council|jedi high council)\b',
+        'jedi': r'\b(jedi|Jedi Order|Jedi Master|who are the jedi|)\b',
+    }
+
+    for tag, pattern in re_patterns.items():
+        if re.search(pattern, input_text, re.IGNORECASE):
+            return tag
+    return None
 
 def chatbot(input_text):
-    input_text = vectorizer.transform([input_text])
-    tag = clf.predict(input_text)[0]
+    matched_tag = regex_patterns(input_text)
+    if matched_tag:
+        print(matched_tag)
+        return get_response_by_tag(matched_tag)
+    
+    input_text_vectorized = vectorizer.transform([input_text])
+    predicted_tag = clf.predict(input_text_vectorized)[0]
+    print(predicted_tag)
+    return get_response_by_tag(predicted_tag)
+
+def get_response_by_tag(tag):
     for intent in intents:
         if intent['tag'] == tag:
             responses = intent['responses']
-            predetermined_response = get_predetermined_response(input_text, responses)
-            if predetermined_response:
-                return predetermined_response
-            response = random.choice(responses)
-            return response
+            return random.choice(responses)
 
 def get_predetermined_response(input_text, responses):
     predetermined_responses = {
         'greeting': ['Hi there', 'Hello'],
         'goodbye': ['Goodbye', 'See you later'],
-        'thanks': ['You\'re welcome', 'No problem']
+        'thanks': ['You\'re welcome', 'No problem'],
+        'jedi': [
+            'The Jedi Order was a noble monastic and nontheistic religious order united in their devotion to the light side of the Force.',
+
+                 ],
+        'code': [
+            'The Jedi Code was a set of rules on tenets in the Jedi Order. The code evolved over the course of centuries an applied to all members of the Order. Among the precepts of the Code was a rule forbidding Jedi from training more than one Padawan at any given time. The Code also embodied the philosophical ideals of the Order, such as discipline, self control, a introspection, and was developed to help the Jedi maintain their devotion to the light side of the Force by rejecting the temptations of the dark side.',
+
+        ],
+        'padawans': [
+
+        ],
+        'council': [
+            'The Jedi High Council, simply known as the Jedi Council, was a body of twelve Jedi Masters that governed the Jedi Order. Headquatered in the Jedi Grand Temple on Coruscant, the High Council worked with the Glactic Senate to maintain peace and justice in the Glactic Republic.',
+
+        ],
     }
 
     for tag, predetermined_responses in predetermined_responses.items():
