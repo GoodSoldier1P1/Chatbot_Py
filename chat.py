@@ -61,7 +61,44 @@ intents = [
         'patterns': ['What is the High Council', 'Who was on the last council', ],
         'responses': ['The Jedi High Council, simply known as the Jedi Council, was a body of twelve Jedi Masters that governed the Jedi Order. Headquatered in the Jedi Grand Temple on Coruscant, the High Council worked with the Glactic Senate to maintain peace and justice in the Glactic Republic.',
                       'The final Jedi High Council was during the Clone Wars and consisted of: Yaddle (deceased), Plo Koon, Mace Windu, Yoda, Ki-Adi-Mundi. Obi-Wan Kenobi, Saesee Tiin, Eeth Koth, Agen Kolar, Shaak Ti, Kit Fisto, Adi Gallia (deceased), Even Piell (deceased), Oppo Rancisis, Coleman Kcaj, Depa Billaba, Stass Allie, Anakin Skywalker']
-    }
+    },
+    {
+        'tag': 'joy',
+        'patterns': ['joy', 'happy', 'glad', 'joyful',],
+        'responses': [
+            "'For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life. For God did not send His Son into the world to condemn the world, but that the world through Him might be saved.' - John 3:16-17",
+            "' Then He opened His mouth and taught them, saying: “Blessed are the poor in spirit, For theirs is the kingdom of heaven. Blessed are those who mourn, For they shall be comforted. Blessed are the meek, For they shall inherit the [a]earth. Blessed are those who hunger and thirst for righteousness, For they shall be filled. Blessed are the merciful, For they shall obtain mercy. Blessed are the pure in heart, For they shall see God. Blessed are the peacemakers, For they shall be called sons of God. Blessed are those who are persecuted for righteousness’ sake, For theirs is the kingdom of heaven. Blessed are you when they revile and persecute you, and say all kinds of evil against you falsely for My sake. Rejoice and be exceedingly glad, for great is your reward in heaven, for so they persecuted the prophets who were before you.' - Matthew 5:2-12",
+            "'Blessed is the man Who walks not in the counsel of the ungodly, Nor stands in the path of sinners, Nor sits in the seat of the scornful; But his delight is in the law of the Lord, And in His law he meditates day and night.' - Psalms 1:1-2",
+            "'What profit has the worker from that in which he labors? I have seen the God-given task with which the sons of men are to be occupied. He has made everything beautiful in its time. Also He has put eternity in their hearts, except that no one can find out the work that God does from beginning to end. I know that nothing is better for them than to rejoice, and to do good in their lives, and also that every man should eat and drink and enjoy the good of all his labor—it is the gift of God.' - Ecclesiastes 3:9-13",
+            "'Rejoice in the Lord always. Again I will say, rejoice!' - Philippians 4:4",
+            "'My brethren, count it all joy when you fall into various trials, knowing that the testing of your faith produces patience.' - James 1:2-3",
+            "'Beloved, do not think it strange concerning the fiery trial which is to try you, as though some strange thing happened to you; but rejoice to the extent that you partake of Christ’s sufferings, that when His glory is revealed, you may also be glad with exceeding joy.' - 1 Peter 4:12–13"
+        ]
+    },
+    {
+        'tag': 'sad',
+        'patterns': ['sad', 'sorrow', 'depressed',],
+        'responses': [
+            "'Answer me speedily, O Lord; My spirit fails! Do not hide Your face from me, Lest I be like those who go down into the pit. Cause me to hear Your lovingkindness in the morning, For in You do I trust; Cause me to know the way in which I should walk, For I lift up my soul to You.' - Psalm 143:7-8",
+            "'Anxiety in the heart of man causes depression, But a good word makes it glad.' - Proverbs 12:25",
+            "'For godly sorrow produces repentance leading to salvation, not to be regretted; but the sorrow of the world produces death.' - 2 Corinthians 7:10",
+            "' and those the Lord has rescued will return. They will enter Zion with singing; everlasting joy will crown their heads. Gladness and joy will overtake them, and sorrow and sighing will flee away.' - Isaiah 35:10",
+            "'Beloved, do not think it strange concerning the fiery trial which is to try you, as though some strange thing happened to you; but rejoice to the extent that you partake of Christ’s sufferings, that when His glory is revealed, you may also be glad with exceeding joy.' - 1 Peter 4:12–13"
+        ]
+    },
+    {
+        'tag': 'guilty',
+        'patterns': ['guilty', 'regret', 'remorse',],
+        'responses': []
+    },
+    {
+        'tag': 'afraid',
+        'patterns': ['afraid', 'scared', 'fear', 'fearful', ],
+        'responses': [
+            "'Beloved, do not think it strange concerning the fiery trial which is to try you, as though some strange thing happened to you; but rejoice to the extent that you partake of Christ’s sufferings, that when His glory is revealed, you may also be glad with exceeding joy.' - 1 Peter 4:12–13"
+        ]
+    },
+
 ]
 
 
@@ -82,6 +119,10 @@ clf.fit(x, y)
 
 def regex_patterns(input_text):
     re_patterns = {
+        'afraid': r'\b(afraid|scared|fear|fearful|)\b',
+        'sad': r'\b(sad|sorrow|depressed|depression\sadness|)\b',
+        'joy': r'\b(joy|happy|glad|joyful)\b,',
+        'guilty': r'\b(guilty|regret|remorse|)\b',
         'code': r'\b(code|mantra|jedi code|)\b',
         'council': r'\b(council|High Council|jedi high council|)\b',
         'padawan': r'\b(padawan|)\b',
